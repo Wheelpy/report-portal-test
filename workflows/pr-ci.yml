@@ -1,0 +1,21 @@
+name: Playwright CI
+
+on:
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    env:
+      RP_USER_PROD: ${{ secrets.RP_USER_PROD }}
+      RP_PASSWORD_PROD: ${{ secrets.RP_PASSWORD_PROD }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - run: npm ci
+      - run: npx playwright install --with-deps
+      - run: npx playwright test --config=playwright.config.prod.ts
