@@ -18,7 +18,7 @@ test.describe("Test Login page", () => {
     await expect(loginPage.successfulLoginNotification).toBeVisible();
   });
 
-  test("Check login with empty username", async ({ loginPage, authFlow }) => {
+  test("Check login with empty username!", async ({ loginPage, authFlow }) => {
     await authFlow.login("", "");
     await expect(loginPage.warnings.loginEmpty).toBeVisible();
   });
