@@ -2,7 +2,10 @@
   "name": "report_portal_testing_ts",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test:ui:prod": "npx playwright test --ui --config=playwright.config.prod.ts",
+    "test:ui:local": "npx playwright test --ui --config=playwright.config.local.ts"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

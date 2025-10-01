@@ -12,6 +12,7 @@ import { ApiPage } from "../pages/api.page";
 import { AuthFlow } from "flows/auth.flow";
 
 export type UIPages = {
+  credentials: { USERNAME: string; PASSWORD: string };
   loginPage: LoginPage;
   sidebar: SideBar;
   dashboardPage: DashboardPage;
@@ -26,6 +27,9 @@ export type UIPages = {
 };
 
 export const test = base.extend<UIPages>({
+  credentials: async ({}, use, testInfo) => {
+    await use(testInfo.project.use.credentials);
+  },
   loginPage: async ({ page }, use) => {
     await use(new LoginPage(page));
   },

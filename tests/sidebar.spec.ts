@@ -1,13 +1,20 @@
-import { PROJECT_NAMES } from "@utils/constants.js";
+import { PROJECT_NAMES_CONSTANTS } from "@utils/constants.js";
 import { test } from "../fixtures/ui-objects-fixture.js";
-import { config } from "../utils/config.js";
 import { expect } from "@playwright/test";
+let PROJECT_NAMES: Record<string, string>;
 
 test.describe("Test Sidebar", () => {
-  test.beforeEach(async ({ page, loginPage, authFlow }) => {
+  test.beforeAll(async ({ credentials }) => {
+    PROJECT_NAMES =
+      credentials.ENV === "prod"
+        ? PROJECT_NAMES_CONSTANTS.prod
+        : PROJECT_NAMES_CONSTANTS.local;
+  });
+
+  test.beforeEach(async ({ page, credentials, loginPage, authFlow }) => {
     await loginPage.open();
     await expect(page).toHaveTitle("Report Portal");
-    await authFlow.login(config.username, config.password);
+    await authFlow.login(credentials.USERNAME, credentials.PASSWORD);
     await expect(page).toHaveURL(/.*\/dashboard/);
   });
 
