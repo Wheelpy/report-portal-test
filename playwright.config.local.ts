@@ -1,4 +1,5 @@
 import { defineConfig, devices } from "@playwright/test";
+import "dotenv/config";
 
 /**
  * Read environment variables from file.
@@ -9,6 +10,7 @@ import { defineConfig, devices } from "@playwright/test";
 // dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 /**
+ * See https://playwright.dev/docs/test-configuration.
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
@@ -26,10 +28,16 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: "https://rp.epam.com/",
+    baseURL: "http://localhost:8080/",
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
+
+    credentials: {
+      USERNAME: process.env.RP_USER_LOCAL,
+      PASSWORD: process.env.RP_PASSWORD_LOCAL,
+      ENV: "local",
+    },
   },
 
   /* Configure projects for major browsers */
