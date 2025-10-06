@@ -12,7 +12,7 @@
       "@fixtures/*": ["fixtures/*"],
       "@utils/*": ["utils/*"]
     },
-    "types": ["@playwright/test"]
+    "types": ["@playwright/test", "jest"]
   },
   "include": ["**/*.ts"],
   "exclude": ["node_modules"]
