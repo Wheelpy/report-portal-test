@@ -1,5 +1,5 @@
 import { Page } from "@playwright/test";
-import { LoginPage } from "../pages/login.page.js";
+import { LoginPage } from "@pages/login.page";
 
 export class AuthFlow {
   private page: Page;

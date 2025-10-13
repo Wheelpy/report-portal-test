@@ -1,0 +1,16 @@
+{
+  "default": {
+    "requireModule": ["ts-node/register", "tsconfig-paths/register"],
+    "require": [
+      "features/step-definitions/**/*.ts",
+      "flows/**/*.ts",
+      "pages/**/*.ts"
+    ],
+    "format": [
+      "progress-bar",
+      "json:reports/cucumber-report.json",
+      "@cucumber/pretty-formatter"
+    ],
+    "parallel": 2
+  }
+}
