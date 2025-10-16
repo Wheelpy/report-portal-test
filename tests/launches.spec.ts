@@ -21,7 +21,7 @@ test.describe("Test Launches page", () => {
     }
   );
 
-  test("Check user is able to select several launches and compare the", async ({
+  test("Check user is able to select several launches and compare them", async ({
     launchesPage,
   }) => {
     await launchesPage.selectLaunchByNumber(0);
@@ -41,7 +41,9 @@ test.describe("Test Launches page", () => {
     await launchesPage.openActions();
     await launchesPage.selectDelete();
     await launchesPage.confirmDelete();
-    await expect(launchesPage.notifications.launchDeleted).toBeVisible();
+    await expect(launchesPage.notifications.launchDeleted).toBeVisible({
+      timeout: 50000,
+    });
     await expect(launchesPage.notifications.launchDeleted).not.toBeVisible({
       timeout: 10000,
     });

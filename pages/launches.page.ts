@@ -13,6 +13,8 @@ export class LaunchesPage {
   readonly launchRow: {
     select: Locator;
     nameInfo: (nameNumber: number) => Locator;
+    totalTests: (rowNumber: number) => Locator;
+    passedTests: (rowNumber: number) => Locator;
     defectStatistics: (
       rowNumber: number,
       statisticsElementNumber: number
@@ -53,6 +55,16 @@ export class LaunchesPage {
             `[data-id] [class*="itemInfo__edit-number-box"] a[class*="itemInfo__name-link"]`
           )
           .nth(nameNumber),
+      totalTests: (rowNumber) =>
+        page
+          .locator("[data-id]")
+          .nth(rowNumber)
+          .locator('[class*="launchSuiteGrid__total"]'),
+      passedTests: (rowNumber) =>
+        page
+          .locator("[data-id]")
+          .nth(rowNumber)
+          .locator('[class*="launchSuiteGrid__passed"]'),
       defectStatistics: (rowNumber, statisticsElementNumber) =>
         page.locator(
           `[data-id]:nth-child(${rowNumber}) [class*="defectStatistics__defect-statistics"] [class*="tooltip"]:nth-child(${statisticsElementNumber})`
