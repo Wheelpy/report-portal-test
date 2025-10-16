@@ -12,7 +12,8 @@
       "@fixtures/*": ["fixtures/*"],
       "@utils/*": ["utils/*"]
     },
-    "types": ["@playwright/test"]
+    "types": ["node", "@playwright/test"],
+    "allowJs": true
   },
   "include": ["**/*.ts"],
   "exclude": ["node_modules"]
