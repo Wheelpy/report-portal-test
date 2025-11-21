@@ -55,6 +55,18 @@ class APIClient {
     return this.request<T>({ method: "POST", url: path, data });
   }
 
+  async put<T>(path: string, data?: any): Promise<T> {
+    return this.request<T>({ method: "PUT", url: path, data });
+  }
+
+  async patch<T>(path: string, data?: any): Promise<T> {
+    return this.request<T>({ method: "PATCH", url: path, data });
+  }
+
+  async delete<T>(path: string): Promise<T> {
+    return this.request<T>({ method: "DELETE", url: path });
+  }
+
   private async request<T>(config: AxiosRequestConfig): Promise<T> {
     const response: AxiosResponse<T> = await this.client.request<T>(config);
     return response.data;
