@@ -20,3 +20,9 @@ export interface LaunchesResponse {
   totalPages: number;
   id: number;
 }
+
+export interface LaunchAttribute {
+  key: string;
+  value: string;
+  system?: boolean;
+}

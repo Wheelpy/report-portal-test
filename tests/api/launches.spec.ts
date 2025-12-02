@@ -1,5 +1,9 @@
 import { apiClient } from "../../utils/api/apiClient";
-import { LaunchesResponse } from "../../utils/api/interfaces";
+import {
+  LaunchesResponse,
+  LaunchAttribute,
+  Launch,
+} from "../../utils/api/interfaces";
 import { randomUUID } from "crypto";
 
 describe("Launches API", () => {
@@ -55,7 +59,7 @@ describe("Launches API", () => {
         rerun: false,
       };
 
-      const response = await apiClient.post<{ id: number }>(
+      const response = await apiClient.post<{ id: string }>(
         "/superadmin_personal/launch",
         body
       );
@@ -120,7 +124,19 @@ describe("Launches API", () => {
 
   describe("request type: PUT", () => {
     it("Should update launch description", async () => {
-      const launchId = 1;
+      const launchesList = await apiClient.get<any>(
+        "/superadmin_personal/launch"
+      );
+
+      expect(Array.isArray(launchesList.content)).toBe(true);
+      expect(launchesList.content.length).toBeGreaterThan(0);
+
+      const firstLaunch = launchesList.content[0];
+
+      expect(firstLaunch).toBeDefined();
+      expect(firstLaunch.id).toBeDefined();
+
+      const launchId = firstLaunch.id;
 
       const originalLaunch = await apiClient.get<any>(
         `/superadmin_personal/launch/${launchId}`
@@ -133,7 +149,7 @@ describe("Launches API", () => {
         mode: originalLaunch.mode || "DEFAULT",
         description: updatedDescription,
         attributes:
-          originalLaunch.attributes?.map((a: any) => ({
+          originalLaunch.attributes?.map((a: LaunchAttribute) => ({
             key: a.key,
             value: a.value,
           })) || [],
@@ -178,7 +194,19 @@ describe("Launches API", () => {
     });
 
     it("Should return error when updating launch with invalid body", async () => {
-      const launchId = 1;
+      const launchesList = await apiClient.get<any>(
+        "/superadmin_personal/launch"
+      );
+
+      expect(Array.isArray(launchesList.content)).toBe(true);
+      expect(launchesList.content.length).toBeGreaterThan(0);
+
+      const firstLaunch = launchesList.content[0];
+
+      expect(firstLaunch).toBeDefined();
+      expect(firstLaunch.id).toBeDefined();
+
+      const launchId = firstLaunch.id;
 
       const invalidBody = {
         mode: 123,
@@ -207,7 +235,19 @@ describe("Launches API", () => {
 
   describe("request type: PUT", () => {
     it("Should fail when trying to PATCH launch (PATCH not supported in RP)", async () => {
-      const launchId = 1;
+      const launchesList = await apiClient.get<any>(
+        "/superadmin_personal/launch"
+      );
+
+      expect(Array.isArray(launchesList.content)).toBe(true);
+      expect(launchesList.content.length).toBeGreaterThan(0);
+
+      const firstLaunch = launchesList.content[0];
+
+      expect(firstLaunch).toBeDefined();
+      expect(firstLaunch.id).toBeDefined();
+
+      const launchId = firstLaunch.id;
 
       try {
         await apiClient.patch(
@@ -240,7 +280,7 @@ describe("Launches API", () => {
       expect(launchesList.content.length).toBeGreaterThan(0);
 
       const finishedLaunches = launchesList.content.filter(
-        (launch: any) => launch.status !== "IN_PROGRESS"
+        (launch: Launch) => launch.status !== "IN_PROGRESS"
       );
 
       expect(finishedLaunches.length).toBeGreaterThan(0);
@@ -282,7 +322,7 @@ describe("Launches API", () => {
       expect(launchesList.content.length).toBeGreaterThan(0);
 
       const inProgressLaunches = launchesList.content.filter(
-        (launch: any) => launch.status === "IN_PROGRESS"
+        (launch: Launch) => launch.status === "IN_PROGRESS"
       );
 
       if (inProgressLaunches.length === 0) {

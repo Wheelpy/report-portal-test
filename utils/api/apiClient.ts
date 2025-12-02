@@ -21,9 +21,10 @@ class APIClient {
         Accept: "application/json",
       },
       proxy: {
-        host: "127.0.0.1",
+        host: String(process.env.MY_HOST),
         port: 8888,
       },
+      timeout: 5000,
     });
 
     this.client.interceptors.request.use((config) => {
