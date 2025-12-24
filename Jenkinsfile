@@ -18,14 +18,14 @@ pipeline {
 
         stage('Install') {
             steps {
-                sh 'npm ci'
-                sh 'npx playwright install --with-deps'
+                bat 'npm ci'
+                bat 'npx playwright install --with-deps'
             }
         }
 
         stage('Test') {
             steps {
-                sh 'npm run test:parallel:prod'
+                bat 'npm run test:parallel:prod'
             }
             post {
                 always {
