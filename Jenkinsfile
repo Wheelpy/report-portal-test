@@ -19,7 +19,7 @@ pipeline {
         stage('Install') {
             steps {
                 sh 'npm ci'
-                sh 'npx playwright install --with-deps'[citation:3]
+                sh 'npx playwright install --with-deps'
             }
         }
 
