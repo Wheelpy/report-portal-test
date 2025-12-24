@@ -7,6 +7,11 @@ pipeline {
         cron('H 2 * * *')
     }
 
+    environment {
+        RP_USER_PROD = credentials('RP_USER_PROD')
+        RP_PASSWORD_PROD = credentials('RP_PASSWORD_PROD')
+    }
+
     stages {
         stage('Checkout') {
             steps {
