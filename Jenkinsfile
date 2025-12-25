@@ -17,12 +17,12 @@ pipeline {
             steps {
                 script {
                     def startMessage = """
-🚀 *Pipeline Started*
-• Job: *${env.JOB_NAME}*
-• Build: *#${env.BUILD_NUMBER}*
-• Branch: *main*
-• User: *${env.CHANGE_AUTHOR ?: 'Scheduled/SCM'}*
-• Workspace: *${env.WORKSPACE}*
+*Pipeline Started*
+- Job: *${env.JOB_NAME}*
+- Build: *#${env.BUILD_NUMBER}*
+- Branch: *main*
+- User: *${env.CHANGE_AUTHOR ?: 'Scheduled/SCM'}*
+- Workspace: *${env.WORKSPACE}*
                     """.stripIndent().trim()
                     
                     slackSend(
@@ -79,13 +79,13 @@ pipeline {
         success {
             script {
                 def successMessage = """
-✅ *Pipeline Successful*
-• Job: *${env.JOB_NAME}* #${env.BUILD_NUMBER}
-• Duration: *${currentBuild.durationString}*
-• Tests: *${env.TEST_PASS_COUNT ?: '?'} passed, ${env.TEST_FAIL_COUNT ?: '?'} failed*
-• Status: *All tests passed*
-• Console: ${env.BUILD_URL}console
-• Report: ${env.BUILD_URL}Playwright_20Report/
+*Pipeline Successful*
+- Job: *${env.JOB_NAME}* #${env.BUILD_NUMBER}
+- Duration: *${currentBuild.durationString}*
+- Tests: *${env.TEST_PASS_COUNT ?: '?'} passed, ${env.TEST_FAIL_COUNT ?: '?'} failed*
+- Status: *All tests passed*
+- Console: ${env.BUILD_URL}console
+- Report: ${env.BUILD_URL}Playwright_20Report/
                 """.stripIndent().trim()
                 
                 slackSend(
@@ -99,13 +99,13 @@ pipeline {
         failure {
             script {
                 def failureMessage = """
-❌ *Pipeline Failed*
-• Job: *${env.JOB_NAME}* #${env.BUILD_NUMBER}
-• Duration: *${currentBuild.durationString}*
-• Status: *Build failed or tests errors*
-• Error: ${currentBuild.currentResult}
-• Console: ${env.BUILD_URL}console
-• Check logs for details
+*Pipeline Failed*
+- Job: *${env.JOB_NAME}* #${env.BUILD_NUMBER}
+- Duration: *${currentBuild.durationString}*
+- Status: *Build failed or tests errors*
+- Error: ${currentBuild.currentResult}
+- Console: ${env.BUILD_URL}console
+- Check logs for details
                 """.stripIndent().trim()
                 
                 slackSend(
@@ -119,13 +119,13 @@ pipeline {
         unstable {
             script {
                 def unstableMessage = """
-⚠️ *Pipeline Unstable*
-• Job: *${env.JOB_NAME}* #${env.BUILD_NUMBER}
-• Duration: *${currentBuild.durationString}*
-• Tests: *${env.TEST_PASS_COUNT ?: '?'} passed, ${env.TEST_FAIL_COUNT ?: '?'} failed*
-• Status: *Some tests failed but pipeline continued*
-• Report: ${env.BUILD_URL}testReport/
-• Console: ${env.BUILD_URL}console
+*Pipeline Unstable*
+- Job: *${env.JOB_NAME}* #${env.BUILD_NUMBER}
+- Duration: *${currentBuild.durationString}*
+- Tests: *${env.TEST_PASS_COUNT ?: '?'} passed, ${env.TEST_FAIL_COUNT ?: '?'} failed*
+- Status: *Some tests failed but pipeline continued*
+- Report: ${env.BUILD_URL}testReport/
+- Console: ${env.BUILD_URL}console
                 """.stripIndent().trim()
                 
                 slackSend(
