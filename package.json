@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test:parallel:prod": "npx playwright test launches.spec.ts --config=playwright.config.prod.ts --workers=2",
+    "test:launches:prod": "npx playwright test launches.spec.ts --config=playwright.config.prod.ts --project=chromium",
     "test:ui:prod": "npx playwright test --ui --config=playwright.config.prod.ts",
     "test:ui:local": "npx playwright test --ui --config=playwright.config.local.ts"
   },

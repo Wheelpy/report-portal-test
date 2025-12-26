@@ -21,7 +21,7 @@ test.describe("Test Launches page", () => {
     }
   );
 
-  test("Check user is able to select several launches and compare them", async ({
+  test("KAN-4: Check user is able to select several launches and compare them", async ({
     launchesPage,
   }) => {
     await launchesPage.selectLaunchByNumber(0);
@@ -32,7 +32,9 @@ test.describe("Test Launches page", () => {
     await expect(launchesPage.compareLaunchesWindow.launchGraph).toHaveCount(2);
   });
 
-  test("Check User is able to remove launch", async ({ launchesPage }) => {
+  test("KAN-5: Check User is able to remove launch", async ({
+    launchesPage,
+  }) => {
     const nameInfo = await launchesPage.launchRow.nameInfo(0);
     await expect(launchesPage.launchRow.nameInfo(0)).toBeVisible();
     const launchNameInitial = await nameInfo.textContent();
@@ -54,7 +56,7 @@ test.describe("Test Launches page", () => {
     expect(launchNameInitial).not.toBe(launchNameUpdated);
   });
 
-  test("Check user is able to move to appropriate launch view clicking on Launch name", async ({
+  test("KAN-6: Check user is able to move to appropriate launch view clicking on Launch name", async ({
     page,
     launchesPage,
   }) => {

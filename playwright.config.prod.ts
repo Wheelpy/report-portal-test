@@ -27,6 +27,7 @@ export default defineConfig({
   reporter: [
     ["html"],
     ["junit", { outputFile: "test-results/junit-results.xml" }],
+    ["./jira/jira-reporter.ts"],
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
