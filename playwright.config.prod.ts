@@ -1,6 +1,5 @@
 import { defineConfig, devices } from "@playwright/test";
 import "dotenv/config";
-import sauceReporter from "@saucelabs/playwright-reporter";
 
 /**
  * Read environment variables from file.
