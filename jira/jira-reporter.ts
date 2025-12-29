@@ -20,7 +20,6 @@ export default class JiraReporter implements Reporter {
 
     console.log(`🚀 Starting test: ${test.title} (Jira: ${issueKey})`);
 
-    // Обновляем статус асинхронно, не ждем завершения
     this.jira
       .updateStatus(test.title, JiraStatus.RUNNING, `Test execution started`)
       .catch((error) => {
@@ -34,7 +33,6 @@ export default class JiraReporter implements Reporter {
     const issueKey = this.jira.extractIssueKey(test.title);
     if (!issueKey) return;
 
-    // Сохраняем результат для обработки в onEnd
     this.testResults.set(test.id, { test, result });
   }
 
@@ -56,7 +54,6 @@ export default class JiraReporter implements Reporter {
         let finalStatus: JiraStatus;
         let comment: string;
 
-        // Определяем финальный статус на основе результата теста
         switch (result.status) {
           case "passed":
             finalStatus = JiraStatus.PASSED;

@@ -17,7 +17,6 @@ export class JiraClient {
     const jiraEmail = process.env.JIRA_EMAIL;
     const jiraToken = process.env.JIRA_API_TOKEN;
 
-    // Проверяем наличие обязательных переменных
     this.isEnabled = !!(jiraUrl && jiraEmail && jiraToken);
 
     if (!this.isEnabled) {
@@ -29,7 +28,6 @@ export class JiraClient {
 
     console.log("✅ Jira integration enabled");
 
-    // Убираем trailing slash из URL
     const baseURL = jiraUrl!.endsWith("/") ? jiraUrl!.slice(0, -1) : jiraUrl!;
 
     this.client = axios.create({
@@ -43,25 +41,15 @@ export class JiraClient {
     });
   }
 
-  /**
-   * Проверяет, включена ли интеграция
-   */
   isJiraEnabled(): boolean {
     return this.isEnabled;
   }
 
-  /**
-   * Извлекает Jira ключ из названия теста
-   * Форматы: "PROJ-123: Test" или "Test @PROJ-123"
-   */
   extractIssueKey(testName: string): string | null {
     const match = testName.match(/([A-Z]+-\d+)/);
     return match ? match[1] : null;
   }
 
-  /**
-   * Основной метод обновления статуса теста
-   */
   async updateTestStatus(
     testName: string,
     status: TestStatus,
@@ -78,10 +66,8 @@ export class JiraClient {
     try {
       console.log(`🔄 Updating ${issueKey} to ${status}...`);
 
-      // 1. Добавляем комментарий
       await this.addComment(issueKey, comment || `Test ${status}: ${testName}`);
 
-      // 2. Пробуем изменить статус
       await this.updateIssueStatus(issueKey, status);
 
       console.log(`✅ Updated ${issueKey} to ${status}`);
@@ -90,9 +76,6 @@ export class JiraClient {
     }
   }
 
-  /**
-   * Добавляет комментарий к задаче
-   */
   private async addComment(issueKey: string, text: string): Promise<void> {
     const comment = `
 Test Result: ${text}
@@ -115,22 +98,17 @@ Automated by Playwright tests
     });
   }
 
-  /**
-   * Пытается изменить статус задачи
-   */
   private async updateIssueStatus(
     issueKey: string,
     targetStatus: TestStatus
   ): Promise<void> {
     try {
-      // Получаем доступные переходы
       const response = await this.client.get(
         `/rest/api/3/issue/${issueKey}/transitions`
       );
 
       const transitions = response.data.transitions || [];
 
-      // Ищем подходящий переход
       const transition = this.findTransition(transitions, targetStatus);
 
       if (transition) {
@@ -139,16 +117,12 @@ Automated by Playwright tests
         });
       }
     } catch (error) {
-      // Если не получилось изменить статус - не страшно, комментарий уже добавили
       console.log(
         `ℹ️ Could not change status for ${issueKey}, but comment was added`
       );
     }
   }
 
-  /**
-   * Находит переход по статусу
-   */
   private findTransition(
     transitions: any[],
     targetStatus: TestStatus

@@ -43,7 +43,6 @@ export class JiraIntegration {
   }
 
   extractIssueKey(testName: string): string | null {
-    // Ищем паттерн типа "KAN-4: Test" или "Test @KAN-5"
     const match = testName.match(/([A-Z]+-\d+)/);
     return match ? match[1] : null;
   }
@@ -64,10 +63,8 @@ export class JiraIntegration {
     try {
       console.log(`🔄 Updating ${issueKey} to ${status}...`);
 
-      // 1. Пробуем изменить статус
       await this.changeIssueStatus(issueKey, status);
 
-      // 2. Добавляем комментарий
       await this.addComment(
         issueKey,
         comment ||
@@ -115,7 +112,6 @@ export class JiraIntegration {
     if (!this.client) return;
 
     try {
-      // 1. Получаем доступные переходы для этой задачи
       const response = await this.client.get(
         `/rest/api/3/issue/${issueKey}/transitions`,
         { params: { expand: "transitions.fields" } }
@@ -127,7 +123,6 @@ export class JiraIntegration {
         transitions.map((t: any) => `${t.name} (ID: ${t.id})`).join(", ")
       );
 
-      // 2. Находим нужный переход
       const transition = this.findTransition(transitions, targetStatus);
 
       if (transition) {
@@ -135,7 +130,6 @@ export class JiraIntegration {
           `🎯 Found transition: ${transition.name} (ID: ${transition.id})`
         );
 
-        // 3. Выполняем переход
         await this.client.post(`/rest/api/3/issue/${issueKey}/transitions`, {
           transition: { id: transition.id },
         });
@@ -167,7 +161,6 @@ export class JiraIntegration {
     transitions: any[],
     targetStatus: JiraStatus
   ): any | null {
-    // Маппинг наших статусов на названия переходов в Jira
     const statusMapping: Record<JiraStatus, string[]> = {
       [JiraStatus.RUNNING]: [
         "In Progress",
@@ -210,7 +203,6 @@ export class JiraIntegration {
     return null;
   }
 
-  // Метод для получения текущего статуса задачи (для отладки)
   async getCurrentStatus(issueKey: string): Promise<string | null> {
     if (!this.client) return null;
 
@@ -225,7 +217,6 @@ export class JiraIntegration {
     }
   }
 
-  // Метод для проверки подключения
   async testConnection(): Promise<boolean> {
     if (!this.client) return false;
 
