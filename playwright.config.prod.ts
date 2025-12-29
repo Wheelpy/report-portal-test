@@ -1,5 +1,6 @@
 import { defineConfig, devices } from "@playwright/test";
 import "dotenv/config";
+import sauceReporter from "@saucelabs/playwright-reporter";
 
 /**
  * Read environment variables from file.
@@ -27,6 +28,17 @@ export default defineConfig({
   reporter: [
     ["html"],
     ["junit", { outputFile: "test-results/junit-results.xml" }],
+    [
+      "@saucelabs/playwright-reporter",
+      {
+        userName: process.env.SAUCE_USERNAME,
+        accessKey: process.env.SAUCE_ACCESS_KEY,
+        region: "eu-central-1",
+        build:
+          process.env.BUILD_NAME ||
+          `playwright-build-${new Date().toISOString()}`,
+      },
+    ],
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
