@@ -12,9 +12,9 @@
       "@fixtures/*": ["fixtures/*"],
       "@utils/*": ["utils/*"]
     },
-    "types": ["node", "@playwright/test"],
+    "types": ["node", "jest"],
     "allowJs": true
   },
-  "include": ["**/*.ts"],
+  "include": ["**/*.ts", "tests/**/*.ts"],
   "exclude": ["node_modules"]
 }
